@@ -1,6 +1,6 @@
 # marksim
 
-Detects anomalies in unbalanced panel data using markov chain simulations.
+Detects anomalies in unbalanced panel data using markov chain simulations. More about what is a panel data [here](https://en.wikipedia.org/wiki/Panel_data).
 
 
 Let's say you have an unbalanced panel containing the growth rates of 1 mln. firms in a country in the last N years (could be any discrete periodic variable). Let's also suppose that you observe 10 firms that grow that fast that they are in the top 1% of growers each year. In other words, these firms grow very persistently. Think of google or amazon or any other successful company being on news.   
@@ -13,8 +13,10 @@ marksim helps to answer the following questions:
 
 ## Usage
 
+Package is a work in progress, so for now please install with
+
 ```
-pip install marksim
+pip install .
 ```
 
 For more detailed documentation, please see [here](https://marksim.readthedocs.io/en/latest/)

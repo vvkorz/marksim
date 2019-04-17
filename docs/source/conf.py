@@ -10,9 +10,10 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+_path = os.path.abspath('../../src')
+sys.path.insert(0, _path)
 
 
 # -- Project information -----------------------------------------------------
@@ -21,8 +22,11 @@ project = 'marksim'
 copyright = '2019, Vladimir Korzinov'
 author = 'Vladimir Korzinov'
 
-# The full version, including alpha/beta/rc tags
-release = '0.0.1'
+# The full version, including alpha/beta/rc tags.
+with open(os.path.join(os.path.abspath('../../'), 'VERSION.md')) as version_file:
+    __version__ = version_file.read().strip()
+release = __version__
+version = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -30,8 +34,10 @@ release = '0.0.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-]
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.viewcode',
+              'sphinx.ext.autosectionlabel'
+              ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,7 +53,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
