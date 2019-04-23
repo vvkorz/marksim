@@ -24,7 +24,7 @@ class TPM:
 		parse the array with unbalanced panel data and generate a transition probability matrix
 
 		:param array: 2D numpy array
-		:return:
+		:return: transition probability matrix
 		"""
 		assert(len(array.shape) == 2),\
 			"I only work with 2D arrays, not {} D".format(len(array.shape))
@@ -105,7 +105,7 @@ class TPM:
         [ 2. nan  5.  1. nan nan  3.  5.  3.  8.  0. nan  4.  2.  4.  7.  0.  6. 1.  9.]
 
         :param array: 1D numpy array.
-        :param n_states: number of states or bins in which the data should be splitted
+        :param n_states: number of states or bins in which the data should be split
         :return: np.array() preserving the order of elements
         """
 		mask = np.invert(np.array(ma.masked_invalid(array).mask))
@@ -191,6 +191,9 @@ class TPM:
          [ 0.  3.  0.  1.  1.  4.  2.  1.  1.  1.]]
 
 
+		:param array: 2D numpy array
+		:param n_states: number o states/bins
+		:return: array with states being calculates along columns, preserving np.NaNs
         """
 		assert (isinstance(array, type(np.array((2, 2))))), "input must be {}, not {}".format(type(np.array((2, 2))),
 																							  type(array))

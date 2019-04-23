@@ -23,13 +23,6 @@ class TestTPM(unittest.TestCase):
             return False
         return True
 
-    def test_functionality(self):
-        test_data = np.random.rand(250, 20)
-        test_data[2, 0] = None
-        a = tpm.TPM()
-        b = a.parse(test_data)
-        pass
-
     def test_invalid_array_shape(self):
         """
         should only work with 2D
