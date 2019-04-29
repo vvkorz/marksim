@@ -8,7 +8,7 @@ Module to calculate transition probability matrix.
 import numpy as np
 import math
 import numpy.ma as ma
-from marksim.config import TPMConfigs
+from marksim.config import Configs
 
 
 class TPM:
@@ -17,10 +17,10 @@ class TPM:
 	"""
 	
 	def __init__(self):
-		self.tpm_array = np.zeros(shape=(TPMConfigs.MARKOV_STATES,
-										 TPMConfigs.MARKOV_STATES))
-		self.markov_order = TPMConfigs.MARKOV_ORDER
-		self.n_states = TPMConfigs.MARKOV_STATES
+		self.tpm_array = np.zeros(shape=(Configs.MARKOV_STATES,
+										 Configs.MARKOV_STATES))
+		self.markov_order = Configs.MARKOV_ORDER
+		self.n_states = Configs.MARKOV_STATES
 
 	def parse(self, array):
 		"""

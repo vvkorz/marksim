@@ -1,15 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+"""
+Utils
+-----
+"""
 import numpy as np
 
 
 class Utils:
     """
-    Utils
-    -----
-
     Utils is a collection of helper functions used in this package.
-
     """
 
     @staticmethod

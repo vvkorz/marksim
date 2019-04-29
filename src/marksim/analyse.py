@@ -9,7 +9,6 @@ from marksim.tpm import TPM
 from marksim.utils import utils
 from marksim.simulate import Simulator
 import array as arr
-import time
 import numpy as np
 
 
@@ -18,7 +17,7 @@ class SimulationAnalysis:
     Analyses the results of a simulated markov processes
     """
 
-    def __init__(self, original_panel, top=10, p=0.01):
+    def __init__(self, original_panel, top=80, p=80):
         self.original_panel = original_panel
         """original panel data"""
         self.top = top
@@ -91,7 +90,7 @@ class SimulationAnalysis:
             result[k] = v
         return result
 
-    def analyse_all_simulations(self, simulated_object):
+    def disassemble_all_arrays(self, simulated_object):
         """
         Analyses whole simulated_object of shape (n_sim, n_rows, n_columns)
         sequentially calling disassemble_array(matrix) function on each cut simulated_object[i, :, :]
@@ -113,26 +112,106 @@ class SimulationAnalysis:
                     result[panel_length] = balanced_panel
         return result
 
-    def benchmarks(self, matrix):
+    def retransform_matrix(self, matrix):
         """
-        calculates how many times in a row a number higer or equal to self.top
+        TODO
+
+        :param array: 2D numpy matrix without missing entries
+        :return: list TODO
+        """
+        histogramm = list()
+        masked = np.ma.masked_where(matrix >= self.top, matrix).mask
+        if masked.any():
+            for irow in range(matrix.shape[0]):
+                splitted_arrays = np.split(masked[irow], np.argwhere(np.diff(masked[irow]) != 0)[:, 0] + 1)
+                # get only arrays with False, so you can calculate how many times a number appears
+                # sequentially
+                filtered = list(filter(lambda x: True if not set(x).pop() else False, splitted_arrays))
+                for inx in filtered:
+                    histogramm.append(len(inx))
+            return histogramm
+        else:
+            return list()
+
+    def benchmark(self, matrix):
+        """
+        calculates how many times in a row a number higher or equal to self.top
         (>= self.top) should show up in a matrix row in order to rule out chance
         with self.p confidence.
 
-        :param array: 2D numpy matrix without mising entries
+        :param array: 2D numpy matrix without missing entries
         :return: int. a number indicating how long a number >= self.top should show up
         """
+
+        histogramm = self.retransform_matrix(matrix)
+        return np.percentile(histogramm, self.p)
+
+    def apply_benchmark(self, matrix, confidence):
+        """
+        Count how many times a number is observed with a given confidence
+
+        :param matrix:
+        :param confidence:
+        :return:
+        """
+        histogramm = self.retransform_matrix(matrix)
+        unique = np.unique(histogramm, return_counts=True)
+        # a dict with how many times in a row a number >= self.top appeared as keys. number of observations
+        # as values.
+        result = 0
+        for indx, observation_period in enumerate(unique[0]):
+            if observation_period >= confidence:
+                result += unique[1][indx]
+        return result
+
+    def analyse_all_simulations(self, simulated_array):
+        """
+        TODO
+
+        return here for each panel size how many times an observed number is higher, equal and lower than
+        a simulated number.
+
+        :return:
+        """
+        original_data_dict = self.disassemble_array(self.original_panel)
+        observed_numbers = dict()
+        benchmarks = dict()
+        for panel_size, panel in self.disassemble_all_arrays(simulated_array).items():
+            benchmarks[panel_size] = self.benchmark(panel)
+            observed_numbers[panel_size] = self.apply_benchmark(original_data_dict[panel_size], benchmarks[panel_size])
+
+        simulated_numbers = dict()
+        for irow in range(simulated_array.shape[0]):
+            simulated_data_dict = self.disassemble_array(simulated_array[irow, :, :])
+
+            for panel_size, panel in simulated_data_dict.items():
+                simulated_number = self.apply_benchmark(panel, benchmarks[panel_size])
+
+                try:
+                    simulated_numbers[panel_size].append(simulated_number)
+                except KeyError:
+                    simulated_numbers[panel_size] = [simulated_number]
+
+        resulting_counts = dict()
+        for panel_size, sim_numbers_list in simulated_numbers.items():
+            sim_numbers_list = np.array(sim_numbers_list)
+            resulting_counts[panel_size] = {"more": len(np.where(sim_numbers_list > observed_numbers[panel_size])[0]),
+                                            "equal": len(np.where(sim_numbers_list == observed_numbers[panel_size])[0]),
+                                            "less": len(np.where(sim_numbers_list < observed_numbers[panel_size])[0])
+                                            }
+
+        return resulting_counts
 
 
 if __name__ == "__main__":
 
     # small demo version of what this class is doing
 
-    n_columns = 12  # time
-    n_rows = 200  # number of observations
-    drop_off = 0.3  # artificial drop off simulating missing entries in the panel
-    n_sim = 100
-    n_states = 100
+    n_columns = 10  # time
+    n_rows = 10  # number of observations
+    drop_off = 0.2  # artificial drop off simulating missing entries in the panel
+    n_sim = 3
+    n_states = 5
 
     # generate some random data
     data = list()
@@ -151,12 +230,9 @@ if __name__ == "__main__":
     sim_array = sim.simulate()
 
     # analyse simulation results
-    start = time.time()
-    a = SimulationAnalysis(original_panel)
-    result = a.analyse_all_simulations(sim_array)
-    for panel_size, panel in result.items():
-        print()
-        print(panel_size)
-        print(panel)
-    end = time.time()
-    print("total:", end - start, "sec")
+    states_matrix = TPM.convert_to_states(original_panel, n_states=n_states)
+    print(states_matrix)
+    print(sim_array)
+    a = SimulationAnalysis(states_matrix, top=4, p=10)
+    r = a.analyse_all_simulations(sim_array)
+    print(r)

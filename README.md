@@ -23,8 +23,8 @@ marksim helps to answer the following questions:
 here is my plan:
 
  - [x] python implementation of the calculation of transition probability matrix
- - [ ] python implementation of the simulation module
- - [ ] python implementation of the analytics module
+ - [x] python implementation of the simulation module
+ - [x] python implementation of the analytics module
  - [ ] release package on PyPI
  - [ ] docker image
  - [ ] django app with basic user interface
@@ -61,7 +61,7 @@ pip install -e.
 To run tests from the root folder do
 
 ```
-
+python -m unittest discover -s src/tests
 ```
 
 ## Versioning
