@@ -2,9 +2,14 @@ Source
 ======
 This is the core package source code
 
-.. automodule:: marksim.TPM.tpm
+.. automodule:: marksim.tpm
    :members:
 
+.. automodule:: marksim.simulate
+   :members:
+
+.. automodule:: marksim.analyse
+   :members:
 
 :Authors:
     Vladimir Korzinov

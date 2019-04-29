@@ -1,6 +1,6 @@
 
 import unittest
-from src.marksim.TPM import tpm
+from src.marksim import tpm
 import numpy as np
 
 

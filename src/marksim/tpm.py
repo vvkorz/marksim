@@ -1,5 +1,8 @@
 # -*- coding: utf-8  -*-
 """
+Transition Probability Matrix
+------------------------------
+
 Module to calculate transition probability matrix.
 """
 import numpy as np
@@ -10,7 +13,7 @@ from marksim.config import TPMConfigs
 
 class TPM:
 	"""
-	Transition probability matrix of a markov process
+	TPM Class encapsulates all methods to calculate transition probability matrix of a discrete markov process
 	"""
 	
 	def __init__(self):
