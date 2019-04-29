@@ -59,14 +59,14 @@ class TestTPM(unittest.TestCase):
                           [5.,  2.,  3.,  5., np.nan,  5., 9.,  3.,  1.,  5.],
                           [4., np.nan, 2., 6., 7., np.nan, 3., 7., 6., 4.],
                           [1.,  8.,  1.,  3.,  3.,  9.,  7.,  2.,  3.,  3.]])
-        benchmarkarray = np.array([[ 4.,  2.,  2.,  0.,  0.,  0., np.nan, np.nan,  4.,  3.],
-                          [np.nan,  2., np.nan,  3., np.nan,  2.,  1.,  3.,  3.,  4.],
-                          [ 0.,  0.,  3., np.nan,  3.,  3., np.nan,  2.,  2.,  0.],
-                          [ 1., np.nan,  0., np.nan,  1., np.nan,  0.,  2.,  0.,  0.],
-                          [ 2.,  1.,  2.,  0.,  0.,  1.,  3.,  4., np.nan,  1.],
-                          [ 3.,  1.,  3.,  2.,  2.,  1.,  0.,  0., np.nan, np.nan],
-                          [np.nan,  4.,  4.,  4.,  4.,  0.,  2.,  0.,  1., np.nan],
-                          [ 2.,  0.,  1.,  1., np.nan,  2.,  4.,  1.,  0.,  2.],
-                          [ 1., np.nan,  1.,  2.,  2., np.nan,  1.,  3.,  2.,  2.],
-                          [ 0.,  3.,  0.,  1.,  1.,  4.,  2.,  1.,  1., 1.]])
+        benchmarkarray = np.array([[4.,  2.,  2.,  0.,  0.,  0., np.nan, np.nan,  4.,  3.],
+                                   [np.nan,  2., np.nan,  3., np.nan,  2.,  1.,  3.,  3.,  4.],
+                                   [0.,  0.,  3., np.nan,  3.,  3., np.nan,  2.,  2.,  0.],
+                                   [1., np.nan,  0., np.nan,  1., np.nan,  0.,  2.,  0.,  0.],
+                                   [2.,  1.,  2.,  0.,  0.,  1.,  3.,  4., np.nan,  1.],
+                                   [3.,  1.,  3.,  2.,  2.,  1.,  0.,  0., np.nan, np.nan],
+                                   [np.nan,  4.,  4.,  4.,  4.,  0.,  2.,  0.,  1., np.nan],
+                                   [2.,  0.,  1.,  1., np.nan,  2.,  4.,  1.,  0.,  2.],
+                                   [1., np.nan,  1.,  2.,  2., np.nan,  1.,  3.,  2.,  2.],
+                                   [0.,  3.,  0.,  1.,  1.,  4.,  2.,  1.,  1., 1.]])
         self.assertTrue(self.nan_equal(benchmarkarray, tpm.TPM.convert_to_states(array, n_states=5)))

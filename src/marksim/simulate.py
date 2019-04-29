@@ -164,7 +164,7 @@ if __name__ == "__main__":
     print("timing simulation process")
     sim = Simulator(tpm_matrix=tpm_matrix, mask=mask, n_sim=n_sim)
     sim_array = sim.simulate()
-    #print(sim_array.shape)
+
     end = time.time()
     print("total:", end - start, "sec")
     print()

@@ -61,7 +61,7 @@ pip install -e.
 To run tests from the root folder do
 
 ```
-python -m unittest discover -s src/tests
+
 ```
 
 ## Versioning
